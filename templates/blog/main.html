@@ -1,0 +1,17 @@
+<!-- blog/templates/blog/main.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+    Shorts Blog
+{% endblock %}
+
+{% block content %}
+    <h1>Shorts Blog</h1>
+    <p>게시물 목록</p>
+    <ul>
+        {% for post in recent_posts %}
+            <li><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+    
+{% endblock %}

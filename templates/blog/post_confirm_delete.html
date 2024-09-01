@@ -1,0 +1,15 @@
+<!-- blog/templates/blog/post_confirm_delete.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+Confirm Delete
+{% endblock %}
+
+{% block content %}
+<h2>이 게시물을 진짜 삭제하겠습니까?</h2>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">네</button>
+    <a href="{% url 'post_detail' post.pk %}">취소</a>
+</form>
+{% endblock %}

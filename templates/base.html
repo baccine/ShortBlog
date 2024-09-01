@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Shorts Blog{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="body">
+    <header class="header">
+        <div class="logo">
+            <a href="{% url 'main' %}">Shorts Blog</a>
+        </div>
+        <div class="search-bar">            
+            <form method="get" action="{% url 'post_list' %}" class="search-form">
+                <input type="text" name="q" value="{{ search_query }}" class="search-input" placeholder=" 검색">
+                <button type="submit" class="search-button">Search</button>
+            </form>
+        </div>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="{% url 'post_list' %}" class="nav-link">전체 목록</a></li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><a href="{% url 'post_create' %}" class="nav-link">글쓰기</a></li>
+                    <li class="nav-item">
+                        <form id="logout-form" action="{% url 'logout' %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link" style="background:none; border:none; color:inherit; cursor:pointer; padding:0;">로그아웃</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">로그인</a></li>
+                    <li class="nav-item"><a href="{% url 'register' %}" class="nav-link">회원가입</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <ul class="category-list">
+                <li class="category-item"><a href="{% url 'post_list' %}?category=notice" class="category-link">공지사항</a></li>
+                <li class="category-item"><a href="{% url 'post_list' %}?category=fun_shorts" class="category-link">재미있는 쇼츠</a></li>
+                <li class="category-item"><a href="{% url 'post_list' %}?category=how_to_create" class="category-link">영상 만드는 법</a></li>
+                <li class="category-item"><a href="{% url 'post_list' %}?category=news" class="category-link">쇼츠 뉴스</a></li>
+                <li class="category-item"><a href="{% url 'post_list' %}?category=trend" class="category-link">최신 트렌드</a></li>
+                <li class="category-item"><a href="{% url 'post_list' %}?category=editing_tips" class="category-link">편집 팁</a></li>
+                <li class="category-item"><a href="{% url 'post_list' %}?category=equipment" class="category-link">촬영 장비 추천</a></li>
+                <li class="category-item"><a href="{% url 'post_list' %}?category=monetization" class="category-link">수익화 방법</a></li>
+                <li class="category-item"><a href="{% url 'post_list' %}?category=community" class="category-link">커뮤니티 활동</a></li>
+                <li class="category-item"><a href="{% url 'post_list' %}?category=challenges" class="category-link">챌린지 참여</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+
+    <script src="{% static 'js/scripts.js' %}"></script>
+</body>
+</html>
