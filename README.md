@@ -1,6 +1,8 @@
 
 ## WBS
-https://docs.google.com/spreadsheets/d/1ErtJS_64mhxFPxHf5niv7E0dq3oHF8GtwhF3tCdfJ1g/edit?gid=0#gid=0
+구글 링크 : https://docs.google.com/spreadsheets/d/1ErtJS_64mhxFPxHf5niv7E0dq3oHF8GtwhF3tCdfJ1g/edit?gid=0#gid=0
+
+
 graph TD
     A[프로젝트 기획 (8/26)] --> B[요구사항 분석 (8/26)]
     A --> C[WBS 작성 (8/26)]
@@ -31,6 +33,76 @@ graph TD
     V --> W[배포 준비 (9/1)]
     V --> X[README 작성 및 문서화 (9/1)]
     V --> Y[최종 점검 및 발표 준비 (9/1)]
+
+erDiagram
+    USER {
+        int id PK
+        string username
+        string password
+        string email
+        string first_name
+        string last_name
+        bool is_staff
+        bool is_superuser
+        datetime date_joined
+    }
+    
+    POST {
+        int id PK
+        string title
+        text content
+        datetime created_at
+        datetime updated_at
+        int views
+        int author_id FK
+        int category_id FK
+        string image
+    }
+
+    CATEGORY {
+        int id PK
+        string name
+        string slug
+    }
+
+    TAG {
+        int id PK
+        string name
+    }
+
+    COMMENT {
+        int id PK
+        text content
+        datetime created_at
+        int post_id FK
+        int author_id FK
+    }
+
+    POST_LIKES {
+        int post_id PK FK
+        int user_id PK FK
+    }
+
+    POST_DISLIKES {
+        int post_id PK FK
+        int user_id PK FK
+    }
+
+    POST_TAGS {
+        int post_id PK FK
+        int tag_id PK FK
+    }
+
+    USER ||--o{ POST : "writes"
+    USER ||--o{ COMMENT : "writes"
+    USER ||--o{ POST_LIKES : "likes"
+    USER ||--o{ POST_DISLIKES : "dislikes"
+    POST ||--o{ COMMENT : "has"
+    POST ||--o{ POST_TAGS : "has"
+    POST ||--o{ POST_LIKES : "has"
+    POST ||--o{ POST_DISLIKES : "has"
+    CATEGORY ||--o{ POST : "categorizes"
+    TAG ||--o{ POST_TAGS : "tags"
 
 
 ## URL 구조
