@@ -1,6 +1,6 @@
 
 ## WBS
-
+https://docs.google.com/spreadsheets/d/1ErtJS_64mhxFPxHf5niv7E0dq3oHF8GtwhF3tCdfJ1g/edit?gid=0#gid=0
 graph TD
     A[프로젝트 기획 (8/26)] --> B[요구사항 분석 (8/26)]
     A --> C[WBS 작성 (8/26)]
