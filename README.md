@@ -16,8 +16,8 @@ ERD
 주요 기능 설명
 트러블 슈팅
 프로젝트에서 배운 점
-프로젝트 개요
-프로젝트 소개
+## 프로젝트 개요
+
 이 프로젝트는 Django를 활용하여 유튜브 쇼츠 블로그를 구현하는 것을 목표로 합니다. 블로그는 쇼츠 비디오와 관련된 다양한 게시글을 다루며, 사용자 친화적인 UI와 강력한 백엔드 시스템을 갖추고 있습니다.
 
 주요 기능
@@ -51,6 +51,226 @@ Python: 3.11
 Django: 5.0.7
 Pillow: 10.4.0
 프로젝트 구조
+폴더 트리
+arduino
+코드 복사
+youtube_shorts_blog/
+│
+├── config/
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+│
+├── accounts/
+│   ├── migrations/
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+│
+├── blog/
+│   ├── migrations/
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+│
+├── static/
+│   ├── css/
+│   │   └── styles.css
+│   └── js/
+│       ├── scripts.js
+│
+├── templates/
+│   ├── accounts/
+│   │   ├── login.html
+│   │   ├── logout.html
+│   │   ├── register.html
+│   │   └── profile_edit.html
+│   ├── blog/
+│   │   ├── post_list.html
+│   │   ├── post_detail.html
+│   │   ├── post_form.html
+│   │   ├── post_edit.html
+│   └── base.html
+│
+├── media/
+│   └── uploads/
+│
+├── manage.py
+└── README.md
+ERD
+mermaid
+코드 복사
+erDiagram
+    CustomUser ||--o{ Post : writes
+    CustomUser ||--o{ Comment : writes
+    CustomUser ||--o{ Like : makes
+    CustomUser ||--o{ Bookmark : makes
+    Post ||--o{ Comment : has
+    Post ||--o{ Like : receives
+    Post ||--o{ Bookmark : receives
+    Post }o--|| Category : belongs_to
+    Post }o--o{ Tag : has
+
+    CustomUser {
+        int id PK
+        string username
+        string email
+        string password
+        string nickname
+        image profile_image
+        text bio
+        string location
+        date birth_date
+        url website
+    }
+
+    Post {
+        int id PK
+        string title
+        text content
+        image image
+        datetime created_at
+        date updated_at
+        int views
+        int author FK
+        int category FK
+    }
+
+    Category {
+        int id PK
+        string name
+        string slug
+    }
+
+    Tag {
+        int id PK
+        string name
+        string slug
+    }
+
+    Comment {
+        int id PK
+        text content
+        datetime created_at
+        datetime updated_at
+        int post FK
+        int author FK
+        int parent FK
+    }
+
+    Like {
+        int id PK
+        int user FK
+        int post FK
+    }
+
+    Bookmark {
+        int id PK
+        int user FK
+        int post FK
+    }
+구현 내용
+사용 화면
+첫 화면	로그인	회원가입
+<img src="README_img/main.png" width="100%"/>	<img src="README_img/login.png" width="100%"/>	<img src="README_img/signup.png" width="100%"/>
+비밀번호 변경	게시글 상세 화면	게시글 생성
+<img src="README_img/password_change.png" width="100%"/>	<img src="README_img/post_detail.png" width="100%"/>	<img src="README_img/post_create.png" width="100%"/>
+게시글 리스트 화면	유저 프로필	프로필 수정
+<img src="README_img/post_list.png" width="100%"/>	<img src="README_img/profile.png" width="100%"/>	<img src="README_img/profile_edit.png" width="100%"/>
+주요 기능 설명
+게시글 관리 기능
+
+작성, 수정, 삭제 기능: 쇼츠 관련 게시글을 작성하고, 수정하거나 삭제할 수 있습니다. 이미지 업로드, 카테고리 및 태그 지정 등이 가능합니다.
+조회 및 상세보기: 게시글 목록을 확인하고, 특정 게시글의 세부 내용을 볼 수 있습니다. 조회수 증가, 댓글 및 대댓글 작성, 좋아요, 북마크 기능을 포함합니다.
+검색 및 필터링: 키워드 기반의 검색 및 카테고리/태그 필터링 기능을 제공합니다.
+사용자 관리 기능
+
+회원가입 및 로그인/로그아웃: 새로운 사용자 계정 생성 및 인증 기능을 제공합니다.
+프로필 관리: 사용자의 프로필을 수정하고, 비밀번호를 변경할 수 있습니다.
+댓글 관리 기능
+
+실시간 댓글 작성 및 표시, 대댓글 기능, 댓글 수정 및 삭제 기능을 제공합니다.
+트러블 슈팅
+프로젝트 진행 중에 발생한 문제와 그 해결 방안:
+
+이미지 업로드 및 출력 문제
+
+문제: 업로드된 이미지가 게시글에 출력되지 않았습니다.
+해결: 미디어 설정을 수정하여 업로드된 이미지가 올바르게 표시되도록 했습니다.
+댓글 비동기 처리 문제
+
+문제: 댓글 작성 시 페이지 전체가 새로고침되었습니다.
+해결: AJAX를 사용하여 페이지 새로고침 없이 댓글이 추가되도록 구현했습니다.
+게시글 필터링 문제
+
+문제: 카테고리와 태그를 기반으로 게시글을 필터링하는 기능이 제대로 작동하지 않았습니다.
+해결: Django ORM을 사용하여 필터링 로직을 구현했습니다.
+프로젝트에서 배운 점
+Django의 강력한 기능을 활용하여 사용자 인증, 이미지 처리, 댓글 관리 등을 효율적으로 구현할 수 있었습니다. 특히, 실시간 댓글 처리, 이미지 업로드와 같은 기능 구현을 통해 웹 애플리케이션 개발에 필요한 다양한 기술을 배울 수 있었습니다. 또한, 계획적인 프로젝트 진행의 중요성을 다시 한 번 깨닫게 되었습니다.
+
+erDiagram
+    User {
+        int id PK
+        string username
+        string email
+        string password
+    }
+    
+    Post {
+        int id PK
+        string title
+        string content
+        date created_at
+        date updated_at
+        int user_id FK
+        int category_id FK
+    }
+    
+    Category {
+        int id PK
+        string name
+        string slug
+    }
+    
+    Comment {
+        int id PK
+        string content
+        date created_at
+        int user_id FK
+        int post_id FK
+    }
+    
+    Tag {
+        int id PK
+        string name
+        string slug
+    }
+    
+    PostTag {
+        int post_id FK
+        int tag_id FK
+    }
+    
+    User ||--o{ Post : "writes"
+    User ||--o{ Comment : "makes"
+    Category ||--o{ Post : "categorizes"
+    Post ||--o{ Comment : "receives"
+    Post ||--o{ PostTag : "has"
+    Tag ||--o{ PostTag : "tags"
+
+
 폴더 트리
 ## WBS
 구글 링크 : https://docs.google.com/spreadsheets/d/1ErtJS_64mhxFPxHf5niv7E0dq3oHF8GtwhF3tCdfJ1g/edit?gid=0#gid=0
