@@ -66,7 +66,6 @@ erDiagram
     CustomUser ||--o{ Post : writes
     CustomUser ||--o{ Comment : writes
     CustomUser ||--o{ Like : makes
-    CustomUser ||--o{ Bookmark : makes
     Post ||--o{ Comment : has
     Post ||--o{ Like : receives
     Post ||--o{ Bookmark : receives
